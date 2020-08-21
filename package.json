@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "license": "MIT",
+  "license": "ISC",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p tsconfig.build.json",
     "test": "ts-mocha test/**/*.test.tsx",

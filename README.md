@@ -10,7 +10,7 @@ Out of the box support is provided for mocha and jest.
 
 Let's say we have a component that fetches the current user information when it is mounted.
 
-Here's how we could test that, using jest:
+Here's how we could test that, using shallow-with-effects with jest:
 
 ```typescript
 import React, { useEffect, useState } from 'react';
@@ -20,10 +20,14 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
+// wrap your tests with shallowWithEffects
+// it handles cleaning up after itself
 shallowWithEffects(shallow => {
   describe('CurrentUser', () => {
     it('fetches the current user when mounted', () => {
       let fetched = false
+      // use the `shallow` function that is passed in rather than the version exported from enzyme
+      // this allows you to test unmounting
       const rendered = shallow(<CurrentUser fetchCurrentUser={() => { fetched = true } />)
       expect(fetched).toEqual(true)
     })

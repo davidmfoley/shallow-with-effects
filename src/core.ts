@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import fakeEffect, { FakeEffect } from './fakeEffect'
+import fakeEffect, { FakeEffect } from './fakeEffect';
 
 export type ShallowRenderer = typeof shallow;
-
 
 interface CachedHooks {
   useEffect: typeof React.useEffect;
@@ -20,7 +19,7 @@ export interface TestLifecycleAdapter {
   teardown: (fn: () => void) => void;
 }
 
-const withShallowEffects = (adapter: TestLifecycleAdapter) => (
+const shallowEffects = (adapter: TestLifecycleAdapter) => (
   fn: (shallow: ShallowRenderer) => void
 ) => {
   let cache: CachedHooks;
@@ -37,8 +36,8 @@ const withShallowEffects = (adapter: TestLifecycleAdapter) => (
       useLayoutEffect: fakeEffect(),
     };
 
-    React.useEffect = fakes.useEffect.implementation;
-    React.useLayoutEffect = fakes.useLayoutEffect.implementation;
+    React.useEffect = fakes.useEffect.invoke;
+    React.useLayoutEffect = fakes.useLayoutEffect.invoke;
   });
 
   adapter.teardown(() => {
@@ -64,4 +63,4 @@ const withShallowEffects = (adapter: TestLifecycleAdapter) => (
   fn(shallowWithEffects);
 };
 
-export default withShallowEffects;
+export default shallowEffects;

@@ -4,7 +4,7 @@
 //
 
 export type FakeEffect = {
-  implementation: (fn: () => void, deps?: any[]) => void;
+  invoke: (fn: () => void, deps?: any[]) => void;
   cleanup: () => void;
 };
 
@@ -49,7 +49,7 @@ const fakeUseEffect = (): FakeEffect => {
   };
 
   return {
-    implementation: (effect: EffectBody, dependencies?: unknown[]): void => {
+    invoke: (effect: EffectBody, dependencies?: unknown[]): void => {
       getEffectInstance(effect).tryInvoke(effect, dependencies);
     },
 
